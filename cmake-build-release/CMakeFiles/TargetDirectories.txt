@@ -1,4 +1,0 @@
-D:/C++/project/test_multi/cmake-build-release/CMakeFiles/serveur_exe.dir
-D:/C++/project/test_multi/cmake-build-release/CMakeFiles/client_exe.dir
-D:/C++/project/test_multi/cmake-build-release/CMakeFiles/edit_cache.dir
-D:/C++/project/test_multi/cmake-build-release/CMakeFiles/rebuild_cache.dir
