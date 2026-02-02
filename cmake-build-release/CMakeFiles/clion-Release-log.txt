@@ -1,0 +1,5 @@
+"D:\C++\CLion 2025.3\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Release "-DCMAKE_MAKE_PROGRAM=D:/C++/CLion 2025.3/bin/ninja/win/x64/ninja.exe" -G Ninja -S D:\C++\project\test_multi -B D:\C++\project\test_multi\cmake-build-release
+-- Found SFML 2.6.2 in D:/C++/project/test_multi/SFML-2.6.2/lib/cmake/SFML
+-- Configuring done (0.5s)
+-- Generating done (0.3s)
+-- Build files have been written to: D:/C++/project/test_multi/cmake-build-release
