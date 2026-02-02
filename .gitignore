@@ -1,0 +1,18 @@
+# Ignorer tout par défaut
+*
+
+# Autoriser les dossiers
+!*/
+
+# Autoriser les fichiers C++
+!*.cpp
+
+# Autoriser CMakeLists
+!CMakeLists.txt
+
+# Autoriser le dossier de build release
+!cmake-build-release/
+!cmake-build-release/**
+
+# (optionnel) autoriser README si tu en ajoutes un
+!README.md
