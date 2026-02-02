@@ -169,9 +169,9 @@ int main() {
 
                 else if (v1 > v2) {
                     if (temp_j1.size() != 0 && temp_j2.size() != 0) {
-                        int size = temp_j1.size() + temp_j2.size();
                         temp_j1.push_back(cartej1);
                         temp_j2.push_back(cartej2);
+                        int size = temp_j1.size() + temp_j2.size();
                         victj1 << "Gagne" << size;
                         victj2 << "Perdu";
                         for (std::string element : temp_j1) {
@@ -196,9 +196,9 @@ int main() {
                 }
                 else {
                     if (temp_j1.size() != 0 && temp_j2.size() != 0) {
-                        int size = temp_j1.size() + temp_j2.size();
                         temp_j1.push_back(cartej1);
                         temp_j2.push_back(cartej2);
+                        int size = temp_j1.size() + temp_j2.size();
                         victj1 << "Perdu";
                         victj2 << "Gagne" << size;
                         for (std::string element : temp_j1) {

@@ -18,7 +18,7 @@ int main() {
     std::string text_j2;
     std::string plis_tempj1;
     std::string plis_tempj2;
-    sf::IpAddress ip = "127.0.0.1"; // Adresse du serveur (local)
+    sf::IpAddress ip = "10.18.60.96"; // Adresse du serveur (local)
 
     unsigned short port = 5325;
 
