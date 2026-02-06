@@ -10,7 +10,8 @@ int main() {
     bool joue1 = false;
     bool game = false;
     bool bataille = false;
-    bool partie;
+    bool a;
+    bool partie = true;
     std::string win;
     std::vector<std::string> carte;
     std::string message_temp;
@@ -102,8 +103,38 @@ int main() {
     socket.setBlocking(false);
 
     while (window.isOpen()) {
-        partie = true;
-        while (partie){
+        if (partie == false) {
+            std::cout << "Tentative de connexion au serveur..." << std::endl;
+            if (socket.connect(ip, port) != sf::Socket::Done) {
+                std::cerr << "Erreur : Impossible de rejoindre le serveur !" << std::endl;
+                return -1;
+            }
+
+            std::cout << "Connecte !" << std::endl;
+
+            sf::Packet carte_recue;
+
+            if (socket.receive(carte_recue) == sf::Socket::Done) {
+                sf::Uint32 size;
+
+                // 1. On récupère d'abord la taille
+                if (carte_recue >> size) {
+
+
+                    // 2. On boucle selon la taille reçue
+                    for (sf::Uint32 i = 0; i < size; ++i) {
+                        std::string nombre;
+                        carte_recue >> nombre;
+                        carte.push_back(nombre);
+                    }
+
+
+                }
+
+            }
+            partie =true;
+
+        }
             sf::Event event;
 
 
@@ -206,23 +237,24 @@ int main() {
             window.draw(plisj1);
             window.draw(plisj2);
             window.display();
+        if (partie == false) {
+             a = true;
         }
-        while (partie == false) {
-            sf::Event event;
-            while (window.pollEvent(event)) {
+        while (a == true) {
+            while (window.pollEvent(event)){
+                std::cout <<" enter dans la boucle";
                 if (event.type == sf::Event::KeyPressed) {
-                    if (event.key.code == sf::Keyboard::Enter) {
-                       std::cout << "le joueur rejoue";
-                        partie = true;
-                        carte.clear();
+                    if (event.key.code == sf::Keyboard::R) {
+                        std::cout << "reconnect";
+                        a = false;
                     }
                     if (event.key.code == sf::Keyboard::Q) {
                         window.close();
                     }
-
                 }
             }
         }
+
     }
 
 

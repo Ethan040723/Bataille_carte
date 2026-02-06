@@ -81,15 +81,15 @@ int main() {
                 if (j1.size() == 0) {
                     victj2 <<"Gagne";
                     victj1 <<"Perdu";
-                    victj1 << static_cast<sf::Uint32>(0);
-                    victj2 << static_cast<sf::Uint32>(j1.size());
+                    victj1 << static_cast<sf::Uint32>(j2.size());
+                    victj2 << static_cast<sf::Uint32>(0);
 
                 }
                 else {
                     victj1 <<"Gagne";
                     victj2 <<"Perdu";
-                    victj1 << static_cast<sf::Uint32>(j2.size());
-                    victj2 << static_cast<sf::Uint32>(0);
+                    victj1 << static_cast<sf::Uint32>(0);
+                    victj2 << static_cast<sf::Uint32>(j1.size());
                 }
                 clients[0]->send(victj1);
                 clients[1]->send(victj2);
@@ -233,17 +233,31 @@ int main() {
                 cartej2 ="";
             }
         }
+
+        // ... (Fin de la boucle while(partie))
+
+        std::cout << "Partie terminee. Nettoyage..." << std::endl;
+
+        // On laisse un peu de temps aux clients pour afficher le message de fin
+        sf::sleep(sf::seconds(2));
+
+        // Nettoyage impératif pour recommencer une partie propre
         for (auto client : clients) {
-            sf::Packet disconnect;
-            if (client->receive(disconnect) == sf::Socket::Disconnected) {
-                std::cout << "Un joueur  est parti." << std::endl;
-                // Nettoyage pour recommencer à zéro
-                for(auto c : clients) delete c;
-                clients.clear();
-                joueur.clear(); // On vide le sélecteur
-                break; // On casse la boucle de jeu pour revenir à l'acceptation
-            }
+            client->disconnect(); // On coupe la connexion
+            delete client;        // On libère la mémoire
         }
+        clients.clear();
+        joueur.clear();
+        j1.clear();
+        j2.clear();
+        temp_j1.clear();
+        temp_j2.clear();
+        cartej1 = "";
+        cartej2 = "";
+        bataille = false;
+
+        std::cout << "Pret pour une nouvelle session !" << std::endl;
+
     }
 
     return 0;
