@@ -10,6 +10,7 @@ int main() {
     bool joue1 = false;
     bool game = false;
     bool bataille = false;
+    bool partie;
     std::vector<std::string> carte;
     std::string message_temp;
     sf::TcpSocket socket;
@@ -18,8 +19,7 @@ int main() {
     std::string text_j2;
     std::string plis_tempj1;
     std::string plis_tempj2;
-    sf::IpAddress ip = "10.18.60.96"; // Adresse du serveur (local)
-
+    sf::IpAddress ip = "127.0.0.1"; // Adresse du serveur (local)
     unsigned short port = 5325;
 
     // 2. Connexion au serveur
@@ -100,8 +100,6 @@ int main() {
     socket.setBlocking(false);
 
     while (window.isOpen()) {
-
-
         sf::Event event;
 
 
@@ -111,19 +109,18 @@ int main() {
             }
 
             if (!game && event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::Space ) {
+                if (event.key.code == sf::Keyboard::Space) {
                     if (joue1 == false) {
                         text_j1 = carte.front();
                         sf::Packet joue;
                         joue << text_j1;
-                        if ( bataille ==  true) {
+                        if (bataille == true) {
                             if (cartej1.loadFromFile("asset/Cartes/00_G.png")) {
                                 cardj1.setTexture(cartej1);
                                 cardj1.setTextureRect(sf::IntRect(0, 0, cartej1.getSize().x, cartej1.getSize().y));
                             }
-                            joue1=true;
-                        }
-                        else {
+                            joue1 = true;
+                        } else {
                             if (cartej1.loadFromFile("asset/Cartes/" + carte.front() + ".png")) {
                                 cardj1.setTexture(cartej1);
                                 cardj1.setTextureRect(sf::IntRect(0, 0, cartej1.getSize().x, cartej1.getSize().y));
@@ -132,12 +129,8 @@ int main() {
                         }
                         socket.send(joue);
                         carte.erase(carte.begin());
-
                     }
                 }
-
-
-
             }
         }
         sf::Packet reponse;
@@ -145,27 +138,26 @@ int main() {
             std::string recu;
             reponse >> recu;
             if (recu == "Bataille") {
-                joue1=false;
-                reponse >> bataille ;
+                joue1 = false;
+                reponse >> bataille;
                 text_vict = recu;
                 sf::Uint32 plis;
                 reponse >> plis;
                 plis_tempj2 = "le joueur adverse :" + std::to_string(plis);
                 plis_tempj1 = "Vous :" + std::to_string(carte.size());
-            }
-            else if (recu == "FINI" ) {
+            } else if (recu == "FINI") {
                 game = true;
                 std::string message;
                 reponse >> message;
-                text_vict =  "Tu as " +message+ "la partie";
+                text_vict = "Tu as " + message + "la partie";
                 text_j1 = "";
                 text_j2 = "";
                 sf::Uint32 plis;
                 reponse >> plis;
                 plis_tempj2 = "le joueur adverse :" + std::to_string(plis);
                 plis_tempj1 = "Vous :" + std::to_string(carte.size());
-            }
-            else if (recu == "Gagne" || recu == "Perdu") {
+                partie = false;
+            } else if (recu == "Gagne" || recu == "Perdu") {
                 text_vict = "Tu as " + recu + " ce pli !";
                 joue1 = false;
                 if (recu == "Gagne") {
@@ -176,30 +168,24 @@ int main() {
                         reponse >> element;
                         carte.push_back(element);
                     }
-
                 }
                 sf::Uint32 plis;
                 reponse >> plis;
                 plis_tempj2 = "le joueur adverse :" + std::to_string(plis);
                 plis_tempj1 = "Vous :" + std::to_string(carte.size());
                 bataille = false;
-            }
-            else {
+            } else {
                 text_j2 = recu;
                 if (joue1 == true) {
-                    bataille= false;
+                    bataille = false;
                 }
-                if (cartej2.loadFromFile("asset/Cartes/" + text_j2  + ".png")) {
+                if (cartej2.loadFromFile("asset/Cartes/" + text_j2 + ".png")) {
                     cardj2.setTexture(cartej2);
                     // On force la mise à jour du sprite au cas où la taille change
                     cardj2.setTextureRect(sf::IntRect(0, 0, cartej2.getSize().x, cartej2.getSize().y));
-
                 }
                 joue1 = false;
-
-
             }
-
         }
 
 
@@ -216,7 +202,6 @@ int main() {
         window.draw(plisj1);
         window.draw(plisj2);
         window.display();
-
     }
 
 
