@@ -133,6 +133,7 @@ int main() {
 
             }
             partie =true;
+            socket.setBlocking(false);
 
         }
             sf::Event event;
@@ -241,18 +242,33 @@ int main() {
              a = true;
         }
         while (a == true) {
-            while (window.pollEvent(event)){
+            sf::Event event2;
+            while (window.pollEvent(event2)){
                 std::cout <<" enter dans la boucle";
-                if (event.type == sf::Event::KeyPressed) {
-                    if (event.key.code == sf::Keyboard::R) {
+                if (event2.type == sf::Event::KeyPressed) {
+                    if (event2.key.code == sf::Keyboard::R) {
                         std::cout << "reconnect";
                         a = false;
+                        socket.disconnect(); // On ferme proprement l'ancienne connexion
+                        socket.setBlocking(true);
+                        joue1 = false;
+                        bataille = false;
+                        game= false;
+                        carte.clear();
+                        text_j1 = "";
+                        text_j2 = "";
+                        text_vict = "";
+                        plis_tempj1 = "";
+                        plis_tempj2 = "";
                     }
-                    if (event.key.code == sf::Keyboard::Q) {
+                    if (event2.key.code == sf::Keyboard::Q) {
                         window.close();
+                        a = false;
                     }
                 }
             }
+            window.clear(sf::Color::White);
+            window.display();
         }
 
     }
